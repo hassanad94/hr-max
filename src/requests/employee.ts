@@ -24,7 +24,7 @@ export const getEmployeesRequest = async (params?: GetEmployeesParams) => {
 		return null;
 	}
 
-	const validate = EmployeePaginationSchema.safeParse(result.data.Result);
+	const validate = EmployeePaginationSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
@@ -50,7 +50,7 @@ export const getEmployeeRequest = async (id: number) => {
 		return null;
 	}
 
-	const validate = EmployeeDtoSchema.safeParse(result.data.Result);
+	const validate = EmployeeDtoSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
@@ -66,7 +66,10 @@ export const getEmployeeRequest = async (id: number) => {
  * POST /api/employees
  */
 export const createEmployeeRequest = async (props: CreateEmployeeRequest) => {
-	const createEmployee = requestHandler<CreateEmployeeRequest, unknown>(() => {
+	const createEmployee = requestHandler<
+		CreateEmployeeRequest,
+		unknown
+	>(() => {
 		return axios.post(`${API_BASE_URL}/api/employees`, props);
 	});
 
@@ -76,7 +79,7 @@ export const createEmployeeRequest = async (props: CreateEmployeeRequest) => {
 		return null;
 	}
 
-	const validate = EmployeeDtoSchema.safeParse(result.data.Result);
+	const validate = EmployeeDtoSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
@@ -95,7 +98,10 @@ export const updateEmployeeRequest = async (
 	id: number,
 	props: CreateEmployeeRequest,
 ) => {
-	const updateEmployee = requestHandler<CreateEmployeeRequest, unknown>(() => {
+	const updateEmployee = requestHandler<
+		CreateEmployeeRequest,
+		unknown
+	>(() => {
 		return axios.put(`${API_BASE_URL}/api/employees/${id}`, props);
 	});
 
@@ -105,7 +111,7 @@ export const updateEmployeeRequest = async (
 		return null;
 	}
 
-	const validate = EmployeeDtoSchema.safeParse(result.data.Result);
+	const validate = EmployeeDtoSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
@@ -131,7 +137,7 @@ export const deleteEmployeeRequest = async (id: number) => {
 		return null;
 	}
 
-	const validate = EmployeeDtoSchema.safeParse(result.data.Result);
+	const validate = EmployeeDtoSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);

@@ -8,7 +8,7 @@ export type ApiResponse<T> = {
 
 type BaseRequest<T, V> = (params?: T) => Promise<AxiosResponse<V>>;
 type BaseResponse<V> = Promise<
-	{ status: true; data: SuccessResponseData<V> } | ErrorResponse
+	{ status: true; data: V } | ErrorResponse
 >;
 
 export type ErrorResponse = {
@@ -23,20 +23,13 @@ export type AppError = {
 	errorObject: Record<string, unknown> | null;
 };
 
-type SuccessResponseData<V> = {
-	StatusCode: string | null;
-	Result: V;
-};
-
 export const requestHandler =
 	<T, V>(request: BaseRequest<T, V>) =>
 	async (params?: T): BaseResponse<V> => {
 		try {
 			const response = await request(params);
 
-			const data = response.data as SuccessResponseData<V>;
-
-			return { status: true, data };
+			return { status: true, data: response.data };
 		} catch (e: unknown) {
 			if (axios.isAxiosError<AppError>(e)) {
 				return {

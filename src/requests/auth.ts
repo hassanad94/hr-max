@@ -17,7 +17,9 @@ export const loginRequest = async (props: LoginRequest) => {
 		return null;
 	}
 
-	const validate = UserSchema.safeParse(result.data.Result);
+	console.log(result.data);
+
+	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
@@ -43,7 +45,7 @@ export const logoutRequest = async () => {
 		return null;
 	}
 
-	const validate = UserSchema.safeParse(result.data.Result);
+	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
@@ -69,7 +71,7 @@ export const getCurrentUserRequest = async () => {
 		return null;
 	}
 
-	const validate = UserSchema.safeParse(result.data.Result);
+	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);

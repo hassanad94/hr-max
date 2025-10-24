@@ -12,7 +12,10 @@ import { API_BASE_URL, requestHandler } from "@/utils";
  * GET /api/users
  */
 export const getUsersRequest = async (params?: GetUsersParams) => {
-	const getUsers = requestHandler<GetUsersParams | undefined, unknown>(() => {
+	const getUsers = requestHandler<
+		GetUsersParams | undefined,
+		unknown
+	>(() => {
 		return axios.get(`${API_BASE_URL}/api/users`, { params });
 	});
 
@@ -22,7 +25,7 @@ export const getUsersRequest = async (params?: GetUsersParams) => {
 		return null;
 	}
 
-	const validate = UserPaginationSchema.safeParse(result.data.Result);
+	const validate = UserPaginationSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
@@ -48,7 +51,7 @@ export const getUserRequest = async (id: number) => {
 		return null;
 	}
 
-	const validate = UserSchema.safeParse(result.data.Result);
+	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
@@ -64,9 +67,11 @@ export const getUserRequest = async (id: number) => {
  * POST /api/users
  */
 export const createUserRequest = async (props: CreateUserRequest) => {
-	const createUser = requestHandler<CreateUserRequest, unknown>(() => {
-		return axios.post(`${API_BASE_URL}/api/users`, props);
-	});
+	const createUser = requestHandler<CreateUserRequest, unknown>(
+		() => {
+			return axios.post(`${API_BASE_URL}/api/users`, props);
+		},
+	);
 
 	const result = await createUser(props);
 
@@ -74,7 +79,7 @@ export const createUserRequest = async (props: CreateUserRequest) => {
 		return null;
 	}
 
-	const validate = UserSchema.safeParse(result.data.Result);
+	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
@@ -103,7 +108,7 @@ export const updateUserRequest = async (
 		return null;
 	}
 
-	const validate = UserSchema.safeParse(result.data.Result);
+	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
@@ -129,7 +134,7 @@ export const deleteUserRequest = async (id: number) => {
 		return null;
 	}
 
-	const validate = UserSchema.safeParse(result.data.Result);
+	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);

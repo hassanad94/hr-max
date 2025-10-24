@@ -1,7 +1,24 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { z } from "zod";
 import { LoginForm } from "@/components/auth";
+import { getCurrentUserRequest } from "@/requests/auth";
+
+const loginSearchParamsSchema = z.object({
+	returnUrl: z.string().optional(),
+});
 
 export const Route = createFileRoute("/login")({
+	validateSearch: loginSearchParamsSchema,
+	beforeLoad: async () => {
+		const isAuthenticated = await getCurrentUserRequest();
+
+		if (!isAuthenticated) {
+			return;
+		}
+		throw redirect({
+			to: "/dashboard",
+		});
+	},
 	component: RouteComponent,
 });
 

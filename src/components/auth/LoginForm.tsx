@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "@tanstack/react-router";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
 import {
 	Field,
 	FieldDescription,
@@ -10,12 +10,18 @@ import {
 	FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { loginRequest } from "@/requests/auth";
+import { Route } from "@/routes/login";
 import { type LoginRequest, LoginRequestSchema } from "@/types";
 
 export const LoginForm = () => {
+	const { returnUrl } = Route.useSearch();
+	const navigate = useNavigate();
+
 	const {
 		handleSubmit,
 		register,
+		setError,
 		formState: { errors, isSubmitting },
 	} = useForm<LoginRequest>({
 		resolver: zodResolver(LoginRequestSchema),
@@ -26,16 +32,19 @@ export const LoginForm = () => {
 	});
 
 	const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
-		try {
-			console.log("Form data:", data);
-			// TODO: Implement login API call with data as LoginRequest
-			// const loginData: LoginRequest = {
-			// 	username: data.username,
-			// 	password: data.password,
-			// };
-		} catch (error) {
-			console.error("Login error:", error);
+		console.log("Form data:", data);
+
+		const loginResponse = await loginRequest(data);
+
+		if (!loginResponse) {
+			setError("root.serverError", {
+				type: "manual",
+				message: "Login failed. Please check your credentials and try again.",
+			});
+			return;
 		}
+
+		navigate({ to: returnUrl || "/dashboard" });
 	};
 
 	return (
@@ -82,6 +91,11 @@ export const LoginForm = () => {
 						>
 							{isSubmitting ? "Signing in..." : "Sign in"}
 						</button>
+						{errors.root?.serverError && (
+							<p className="mt-2 text-center text-sm text-red-600">
+								{errors.root.serverError.message}
+							</p>
+						)}
 					</FieldGroup>
 				</FieldSet>
 			</form>
