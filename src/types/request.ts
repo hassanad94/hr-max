@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { BaseEmployeeSchema, BaseUserSchema } from "@/types";
+import { BaseEmployeeSchema } from "./employee";
+import { BaseUserSchema } from "./user";
 
 /**
  * LoginRequest schema

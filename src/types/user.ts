@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { UserGroupSchema } from "@/types";
+import { UserGroupSchema } from "./enums";
 
 /**
  * Base User schema with all fields

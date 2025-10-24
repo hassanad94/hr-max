@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { EducationSchema, PaymentMethodSchema, SexSchema } from "@/types";
+import { EducationSchema, PaymentMethodSchema, SexSchema } from "./enums";
 
 /**
  * Base Employee schema
@@ -30,8 +30,8 @@ export const BaseEmployeeSchema = z.object({
 	paymentMethod: PaymentMethodSchema.nullable().optional(),
 	bankAccountNumber: z.string().nullable(),
 	moneyDispatchAddress: z.string().nullable(),
-	cashPaymentDay: z.int().nullable(),
-	salary: z.int().nullable(),
+	cashPaymentDay: z.number().int().nullable(),
+	salary: z.number().int().nullable(),
 });
 
 /**
@@ -40,7 +40,7 @@ export const BaseEmployeeSchema = z.object({
  * Extends BaseEmployeeSchema with an 'id' field
  */
 export const EmployeeDtoSchema = BaseEmployeeSchema.extend({
-	id: z.int(),
+	id: z.number().int(),
 });
 
 export type EmployeeDto = z.infer<typeof EmployeeDtoSchema>;
