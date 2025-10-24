@@ -23,3 +23,25 @@ export const BaseUserSchema = z.object({
 export const UserSchema = BaseUserSchema.omit({ password: true });
 
 export type User = z.infer<typeof UserSchema>;
+
+/**
+ * Get users query parameters schema
+ */
+export const GetUsersParamsSchema = z.object({
+	search: z.string().optional(),
+	orderBy: z.string().optional(),
+	limit: z.number().optional(),
+	offset: z.number().optional(),
+});
+
+export type GetUsersParams = z.infer<typeof GetUsersParamsSchema>;
+
+/**
+ * User pagination response schema
+ */
+export const UserPaginationSchema = z.object({
+	data: z.array(UserSchema).nullable(),
+	total: z.number(),
+});
+
+export type UserPagination = z.infer<typeof UserPaginationSchema>;
