@@ -44,3 +44,25 @@ export const EmployeeDtoSchema = BaseEmployeeSchema.extend({
 });
 
 export type EmployeeDto = z.infer<typeof EmployeeDtoSchema>;
+
+/**
+ * Get employees query parameters schema
+ */
+export const GetEmployeesParamsSchema = z.object({
+	search: z.string().optional(),
+	orderBy: z.string().optional(),
+	limit: z.number().optional(),
+	offset: z.number().optional(),
+});
+
+export type GetEmployeesParams = z.infer<typeof GetEmployeesParamsSchema>;
+
+/**
+ * Employee pagination response schema
+ */
+export const EmployeePaginationSchema = z.object({
+	data: z.array(EmployeeDtoSchema).nullable(),
+	total: z.number(),
+});
+
+export type EmployeePagination = z.infer<typeof EmployeePaginationSchema>;
