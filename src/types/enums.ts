@@ -47,3 +47,12 @@ export const PaymentMethodSchema = z.union([
 ]);
 
 export type PaymentMethod = z.infer<typeof PaymentMethodSchema>;
+
+/**
+ * UserGroup enum
+ * 0 = Group0
+ * 1 = Group1
+ */
+export const UserGroupSchema = z.union([z.literal(0), z.literal(1)]);
+
+export type UserGroup = z.infer<typeof UserGroupSchema>;

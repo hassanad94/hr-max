@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import { BaseEmployeeSchema } from "./employee";
+import { BaseEmployeeSchema, BaseUserSchema } from "@/types";
 
 /**
  * CreateEmployeeRequest schema
@@ -16,3 +16,15 @@ export type CreateEmployeeRequest = z.infer<typeof CreateEmployeeRequestSchema>;
 export const UpdateEmployeeRequestSchema = BaseEmployeeSchema;
 
 export type UpdateEmployeeRequest = z.infer<typeof UpdateEmployeeRequestSchema>;
+
+/**
+ * CreateUserRequest schema
+ * Omits id, lastActive, and created fields (server-generated)
+ */
+export const CreateUserRequestSchema = BaseUserSchema.omit({
+	id: true,
+	lastActive: true,
+	created: true,
+});
+
+export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>;
