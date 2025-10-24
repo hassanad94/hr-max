@@ -5,6 +5,7 @@ import { API_BASE_URL, requestHandler } from "@/utils";
 /**
  * Login request
  * POST /api/auth/login
+ * @throws {Error} When API request fails or validation fails
  */
 export const loginRequest = async (props: LoginRequest) => {
 	const login = requestHandler<LoginRequest, unknown>(() => {
@@ -14,7 +15,7 @@ export const loginRequest = async (props: LoginRequest) => {
 	const result = await login(props);
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to login");
 	}
 
 	console.log(result.data);
@@ -23,8 +24,7 @@ export const loginRequest = async (props: LoginRequest) => {
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate user response");
 	}
 
 	return validate.data;
@@ -33,6 +33,7 @@ export const loginRequest = async (props: LoginRequest) => {
 /**
  * Logout request
  * POST /api/auth/logout
+ * @throws {Error} When API request fails or validation fails
  */
 export const logoutRequest = async () => {
 	const logout = requestHandler<undefined, User>(() => {
@@ -42,15 +43,14 @@ export const logoutRequest = async () => {
 	const result = await logout();
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to logout");
 	}
 
 	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate user response");
 	}
 
 	return validate.data;
@@ -59,6 +59,7 @@ export const logoutRequest = async () => {
 /**
  * Get current user request
  * GET /api/auth/me
+ * @throws {Error} When API request fails or validation fails
  */
 export const getCurrentUserRequest = async () => {
 	const getMe = requestHandler<undefined, User>(() => {
@@ -68,15 +69,14 @@ export const getCurrentUserRequest = async () => {
 	const result = await getMe();
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to fetch current user");
 	}
 
 	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate user response");
 	}
 
 	return validate.data;

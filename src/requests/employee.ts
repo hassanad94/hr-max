@@ -1,3 +1,4 @@
+import { queryOptions } from "@tanstack/react-query";
 import axios from "axios";
 import {
 	type CreateEmployeeRequest,
@@ -8,10 +9,22 @@ import {
 import { API_BASE_URL, requestHandler } from "@/utils";
 
 /**
+ * Query options for fetching Employees
+ */
+
+export const getEmployeesQueryOptions = (params?: GetEmployeesParams) =>
+	queryOptions({
+		queryKey: ["Employees", { ...params }],
+		queryFn: () => getEmployeesRequest(params),
+	});
+
+/**
  * Get all employees
  * GET /api/employees
+ * @throws {Error} When API request fails or validation fails
  */
 export const getEmployeesRequest = async (params?: GetEmployeesParams) => {
+	console.log(params);
 	const getEmployees = requestHandler<GetEmployeesParams | undefined, unknown>(
 		() => {
 			return axios.get(`${API_BASE_URL}/api/employees`, { params });
@@ -21,15 +34,14 @@ export const getEmployeesRequest = async (params?: GetEmployeesParams) => {
 	const result = await getEmployees(params);
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to fetch employees");
 	}
 
 	const validate = EmployeePaginationSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate employees response");
 	}
 
 	return validate.data;
@@ -38,6 +50,7 @@ export const getEmployeesRequest = async (params?: GetEmployeesParams) => {
 /**
  * Get employee by ID
  * GET /api/employees/{id}
+ * @throws {Error} When API request fails or validation fails
  */
 export const getEmployeeRequest = async (id: number) => {
 	const getEmployee = requestHandler<undefined, unknown>(() => {
@@ -47,15 +60,14 @@ export const getEmployeeRequest = async (id: number) => {
 	const result = await getEmployee();
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to fetch employee");
 	}
 
 	const validate = EmployeeDtoSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate employee response");
 	}
 
 	return validate.data;
@@ -64,27 +76,24 @@ export const getEmployeeRequest = async (id: number) => {
 /**
  * Create employee
  * POST /api/employees
+ * @throws {Error} When API request fails or validation fails
  */
 export const createEmployeeRequest = async (props: CreateEmployeeRequest) => {
-	const createEmployee = requestHandler<
-		CreateEmployeeRequest,
-		unknown
-	>(() => {
+	const createEmployee = requestHandler<CreateEmployeeRequest, unknown>(() => {
 		return axios.post(`${API_BASE_URL}/api/employees`, props);
 	});
 
 	const result = await createEmployee(props);
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to create employee");
 	}
 
 	const validate = EmployeeDtoSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate employee response");
 	}
 
 	return validate.data;
@@ -93,30 +102,27 @@ export const createEmployeeRequest = async (props: CreateEmployeeRequest) => {
 /**
  * Update employee
  * PUT /api/employees/{id}
+ * @throws {Error} When API request fails or validation fails
  */
 export const updateEmployeeRequest = async (
 	id: number,
 	props: CreateEmployeeRequest,
 ) => {
-	const updateEmployee = requestHandler<
-		CreateEmployeeRequest,
-		unknown
-	>(() => {
+	const updateEmployee = requestHandler<CreateEmployeeRequest, unknown>(() => {
 		return axios.put(`${API_BASE_URL}/api/employees/${id}`, props);
 	});
 
 	const result = await updateEmployee(props);
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to update employee");
 	}
 
 	const validate = EmployeeDtoSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate employee response");
 	}
 
 	return validate.data;
@@ -125,6 +131,7 @@ export const updateEmployeeRequest = async (
 /**
  * Delete employee
  * DELETE /api/employees/{id}
+ * @throws {Error} When API request fails or validation fails
  */
 export const deleteEmployeeRequest = async (id: number) => {
 	const deleteEmployee = requestHandler<undefined, unknown>(() => {
@@ -134,15 +141,14 @@ export const deleteEmployeeRequest = async (id: number) => {
 	const result = await deleteEmployee();
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to delete employee");
 	}
 
 	const validate = EmployeeDtoSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate employee response");
 	}
 
 	return validate.data;

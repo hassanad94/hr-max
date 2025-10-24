@@ -10,6 +10,7 @@ import { API_BASE_URL, requestHandler } from "@/utils";
 /**
  * Get all users
  * GET /api/users
+ * @throws {Error} When API request fails or validation fails
  */
 export const getUsersRequest = async (params?: GetUsersParams) => {
 	const getUsers = requestHandler<
@@ -22,15 +23,14 @@ export const getUsersRequest = async (params?: GetUsersParams) => {
 	const result = await getUsers(params);
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to fetch users");
 	}
 
 	const validate = UserPaginationSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate users response");
 	}
 
 	return validate.data;
@@ -39,6 +39,7 @@ export const getUsersRequest = async (params?: GetUsersParams) => {
 /**
  * Get user by ID
  * GET /api/users/{id}
+ * @throws {Error} When API request fails or validation fails
  */
 export const getUserRequest = async (id: number) => {
 	const getUser = requestHandler<undefined, unknown>(() => {
@@ -48,15 +49,14 @@ export const getUserRequest = async (id: number) => {
 	const result = await getUser();
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to fetch user");
 	}
 
 	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate user response");
 	}
 
 	return validate.data;
@@ -65,6 +65,7 @@ export const getUserRequest = async (id: number) => {
 /**
  * Create user
  * POST /api/users
+ * @throws {Error} When API request fails or validation fails
  */
 export const createUserRequest = async (props: CreateUserRequest) => {
 	const createUser = requestHandler<CreateUserRequest, unknown>(
@@ -76,15 +77,14 @@ export const createUserRequest = async (props: CreateUserRequest) => {
 	const result = await createUser(props);
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to create user");
 	}
 
 	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate user response");
 	}
 
 	return validate.data;
@@ -93,6 +93,7 @@ export const createUserRequest = async (props: CreateUserRequest) => {
 /**
  * Update user
  * PUT /api/users/{id}
+ * @throws {Error} When API request fails or validation fails
  */
 export const updateUserRequest = async (
 	id: number,
@@ -105,15 +106,14 @@ export const updateUserRequest = async (
 	const result = await updateUser(props);
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to update user");
 	}
 
 	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate user response");
 	}
 
 	return validate.data;
@@ -122,6 +122,7 @@ export const updateUserRequest = async (
 /**
  * Delete user
  * DELETE /api/users/{id}
+ * @throws {Error} When API request fails or validation fails
  */
 export const deleteUserRequest = async (id: number) => {
 	const deleteUser = requestHandler<undefined, unknown>(() => {
@@ -131,15 +132,14 @@ export const deleteUserRequest = async (id: number) => {
 	const result = await deleteUser();
 
 	if (!result.status) {
-		return null;
+		throw new Error(result.error?.message || "Failed to delete user");
 	}
 
 	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-
-		return null;
+		throw new Error("Failed to validate user response");
 	}
 
 	return validate.data;

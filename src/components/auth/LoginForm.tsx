@@ -32,19 +32,16 @@ export const LoginForm = () => {
 	});
 
 	const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
-		console.log("Form data:", data);
+		try {
+			await loginRequest(data);
 
-		const loginResponse = await loginRequest(data);
-
-		if (!loginResponse) {
+			navigate({ to: returnUrl || "/dashboard" });
+		} catch {
 			setError("root.serverError", {
 				type: "manual",
 				message: "Login failed. Please check your credentials and try again.",
 			});
-			return;
 		}
-
-		navigate({ to: returnUrl || "/dashboard" });
 	};
 
 	return (
