@@ -1,5 +1,16 @@
-import type { z } from "zod";
+import { z } from "zod";
 import { BaseEmployeeSchema, BaseUserSchema } from "@/types";
+
+/**
+ * LoginRequest schema
+ * Both username and password are nullable strings as per API specification
+ */
+export const LoginRequestSchema = z.object({
+	username: z.string().nullable(),
+	password: z.string().nullable(),
+});
+
+export type LoginRequest = z.infer<typeof LoginRequestSchema>;
 
 /**
  * CreateEmployeeRequest schema
@@ -8,14 +19,6 @@ import { BaseEmployeeSchema, BaseUserSchema } from "@/types";
 export const CreateEmployeeRequestSchema = BaseEmployeeSchema;
 
 export type CreateEmployeeRequest = z.infer<typeof CreateEmployeeRequestSchema>;
-
-/**
- * UpdateEmployeeRequest schema
- * Same as CreateEmployeeRequest - all fields are optional/nullable
- */
-export const UpdateEmployeeRequestSchema = BaseEmployeeSchema;
-
-export type UpdateEmployeeRequest = z.infer<typeof UpdateEmployeeRequestSchema>;
 
 /**
  * CreateUserRequest schema
