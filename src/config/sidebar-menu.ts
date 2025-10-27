@@ -8,7 +8,6 @@ import {
 	HelpCircleIcon,
 	LayoutDashboardIcon,
 	MessageCircleIcon,
-	ShoppingCartIcon,
 	TableIcon,
 	UserIcon,
 } from "lucide-react";

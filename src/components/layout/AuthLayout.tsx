@@ -1,16 +1,10 @@
-import { ChevronDownIcon, ChevronRightIcon, LanguagesIcon } from "lucide-react";
-import { type ReactNode, useState } from "react";
+import { LanguagesIcon } from "lucide-react";
+import type { FC, PropsWithChildren, ReactNode } from "react";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { SidebarMenuItem as SidebarMenuItemComponent } from "@/components/layout/SidebarMenuItem";
 import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
 import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -21,41 +15,12 @@ import {
 	SidebarGroupLabel,
 	SidebarHeader,
 	SidebarMenu,
-	SidebarMenuButton,
-	SidebarMenuItem,
-	SidebarMenuSub,
-	SidebarMenuSubButton,
-	SidebarMenuSubItem,
 	SidebarProvider,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { sidebarMenu } from "@/config/sidebar-menu";
 
-type Props = {
-	children: ReactNode;
-};
-
-const AuthLayout = ({ children }: Props) => {
-	const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
-
-	const toggleItem = (id: string) => {
-		setOpenItems((prev) => ({
-			...prev,
-			[id]: !prev[id],
-		}));
-	};
-
-	const getBadgeStyles = (variant?: "new" | "beta") => {
-		switch (variant) {
-			case "new":
-				return "bg-green-500 text-white";
-			case "beta":
-				return "bg-yellow-500 text-white";
-			default:
-				return "bg-green-500 text-white";
-		}
-	};
-
+export const AuthLayout: FC<PropsWithChildren> = ({ children }) => {
 	return (
 		<div className="flex min-h-dvh w-full">
 			<SidebarProvider>
@@ -78,54 +43,9 @@ const AuthLayout = ({ children }: Props) => {
 								</SidebarGroupLabel>
 								<SidebarGroupContent>
 									<SidebarMenu>
-										{section.items.map((item) => {
-											const Icon = item.icon;
-											const isOpen = openItems[item.id];
-
-											return (
-												<SidebarMenuItem key={item.id}>
-													<SidebarMenuButton
-														onClick={
-															item.collapsible
-																? () => toggleItem(item.id)
-																: undefined
-														}
-														className="w-full justify-between"
-													>
-														<div className="flex items-center gap-3">
-															<Icon className="size-5" />
-															<span>{item.label}</span>
-														</div>
-														<div className="flex items-center gap-2">
-															{item.badge && (
-																<span
-																	className={`rounded px-1.5 py-0.5 text-xs font-medium ${getBadgeStyles(item.badge.variant)}`}
-																>
-																	{item.badge.text}
-																</span>
-															)}
-															{item.collapsible &&
-																(isOpen ? (
-																	<ChevronDownIcon className="size-4" />
-																) : (
-																	<ChevronRightIcon className="size-4" />
-																))}
-														</div>
-													</SidebarMenuButton>
-													{item.subItems && isOpen && (
-														<SidebarMenuSub>
-															{item.subItems.map((subItem) => (
-																<SidebarMenuSubItem key={subItem.label}>
-																	<SidebarMenuSubButton href={subItem.href}>
-																		{subItem.label}
-																	</SidebarMenuSubButton>
-																</SidebarMenuSubItem>
-															))}
-														</SidebarMenuSub>
-													)}
-												</SidebarMenuItem>
-											);
-										})}
+										{section.items.map((item) => (
+											<SidebarMenuItemComponent key={item.id} item={item} />
+										))}
 									</SidebarMenu>
 								</SidebarGroupContent>
 							</SidebarGroup>
@@ -141,21 +61,7 @@ const AuthLayout = ({ children }: Props) => {
 									orientation="vertical"
 									className="hidden !h-4 sm:block"
 								/>
-								<Breadcrumb className="hidden sm:block">
-									<BreadcrumbList>
-										<BreadcrumbItem>
-											<BreadcrumbLink href="#">Home</BreadcrumbLink>
-										</BreadcrumbItem>
-										<BreadcrumbSeparator />
-										<BreadcrumbItem>
-											<BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
-										</BreadcrumbItem>
-										<BreadcrumbSeparator />
-										<BreadcrumbItem>
-											<BreadcrumbPage>Employees</BreadcrumbPage>
-										</BreadcrumbItem>
-									</BreadcrumbList>
-								</Breadcrumb>
+								<Breadcrumbs />
 							</div>
 							<div className="flex items-center gap-1.5">
 								<LanguageDropdown
@@ -186,5 +92,3 @@ const AuthLayout = ({ children }: Props) => {
 		</div>
 	);
 };
-
-export default AuthLayout;
