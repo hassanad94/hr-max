@@ -1,1 +1,2 @@
-export * from "./DataTable";
+export { DataTable } from "./DataTable";
+export * from "./dashboard-header";

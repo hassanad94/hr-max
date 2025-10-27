@@ -1,14 +1,6 @@
 import { LanguagesIcon } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Card, CardContent } from "@/components/ui/card";
+import { LanguageDropdown, ProfileDropdown } from "@/components/dashboard/dashboard-header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-	Sidebar,
-	SidebarProvider,
-	SidebarTrigger,
-} from "@/components/ui/sidebar";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -17,11 +9,16 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import {
+	Sidebar,
+	SidebarProvider,
+	SidebarTrigger,
+} from "@/components/ui/sidebar";
 
-import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
-import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
-
-const Header = () => {
+export const DashboardHeader = () => {
 	return (
 		<div className="flex min-h-dvh w-full">
 			<SidebarProvider>
@@ -91,5 +88,3 @@ const Header = () => {
 		</div>
 	);
 };
-
-export default Header;

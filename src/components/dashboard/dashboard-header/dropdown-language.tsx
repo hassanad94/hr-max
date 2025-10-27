@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import type { ReactNode } from "react";
+import { useState } from "react";
 
 import {
 	DropdownMenu,
@@ -17,7 +17,7 @@ type Props = {
 	align?: "start" | "center" | "end";
 };
 
-const LanguageDropdown = ({ defaultOpen, align, trigger }: Props) => {
+export const LanguageDropdown = ({ defaultOpen, align, trigger }: Props) => {
 	const [language, setLanguage] = useState("english");
 
 	return (
@@ -60,5 +60,3 @@ const LanguageDropdown = ({ defaultOpen, align, trigger }: Props) => {
 		</DropdownMenu>
 	);
 };
-
-export default LanguageDropdown;

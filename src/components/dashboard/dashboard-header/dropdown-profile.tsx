@@ -1,16 +1,15 @@
+import {
+	CirclePlusIcon,
+	CreditCardIcon,
+	LogOutIcon,
+	SettingsIcon,
+	SquarePenIcon,
+	UserIcon,
+	UsersIcon,
+} from "lucide-react";
 import type { ReactNode } from "react";
 
-import {
-	UserIcon,
-	SettingsIcon,
-	CreditCardIcon,
-	UsersIcon,
-	SquarePenIcon,
-	CirclePlusIcon,
-	LogOutIcon,
-} from "lucide-react";
-
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -27,7 +26,11 @@ type Props = {
 	align?: "start" | "center" | "end";
 };
 
-const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
+export const ProfileDropdown = ({
+	trigger,
+	defaultOpen,
+	align = "end",
+}: Props) => {
 	return (
 		<DropdownMenu defaultOpen={defaultOpen}>
 			<DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
@@ -100,5 +103,3 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
 		</DropdownMenu>
 	);
 };
-
-export default ProfileDropdown;

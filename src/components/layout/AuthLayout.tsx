@@ -1,9 +1,11 @@
 import { LanguagesIcon } from "lucide-react";
-import type { FC, PropsWithChildren, ReactNode } from "react";
+import type { FC, PropsWithChildren } from "react";
+import {
+	LanguageDropdown,
+	ProfileDropdown,
+} from "@/components/dashboard/dashboard-header";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { SidebarMenuItem as SidebarMenuItemComponent } from "@/components/layout/SidebarMenuItem";
-import LanguageDropdown from "@/components/shadcn-studio/blocks/dropdown-language";
-import ProfileDropdown from "@/components/shadcn-studio/blocks/dropdown-profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
