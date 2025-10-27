@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import z from "zod";
-import { DataTable } from "@/components/dashboard";
+import { DataTable } from "@/components/data-table";
 
 /*Currently its an overkill but later maybe we need to extend*/
 const dashBoardSearchParamsSchema = z.object({
