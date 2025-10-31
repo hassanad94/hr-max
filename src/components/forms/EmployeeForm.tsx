@@ -238,7 +238,7 @@ export const EmployeeForm = (props: EmployeeFormProps) => {
 									<Select
 										value={watch("sex")?.toString() ?? ""}
 										onValueChange={(value) =>
-											setValue("sex", Number.parseInt(value) as 0 | 1 | 2)
+											setValue("sex", Number.parseInt(value, 10) as 0 | 1 | 2)
 										}
 									>
 										<SelectTrigger id="sex">
@@ -262,7 +262,15 @@ export const EmployeeForm = (props: EmployeeFormProps) => {
 										onValueChange={(value) =>
 											setValue(
 												"education",
-												Number.parseInt(value) as 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7,
+												Number.parseInt(value, 10) as
+													| 0
+													| 1
+													| 2
+													| 3
+													| 4
+													| 5
+													| 6
+													| 7,
 											)
 										}
 									>
@@ -434,7 +442,7 @@ export const EmployeeForm = (props: EmployeeFormProps) => {
 										onValueChange={(value) =>
 											setValue(
 												"paymentMethod",
-												Number.parseInt(value) as 0 | 1 | 2,
+												Number.parseInt(value, 10) as 0 | 1 | 2,
 											)
 										}
 									>

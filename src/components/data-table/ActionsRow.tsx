@@ -1,11 +1,8 @@
+import type { FC } from "react";
 import { Button } from "@/components/ui/button";
 import { AddEmployee } from "./actions/AddEmployee";
 
-interface ActionsRowProps {
-	onAddEmployee?: () => void;
-}
-
-export const ActionsRow = ({ onAddEmployee }: ActionsRowProps) => {
+export const ActionsRow: FC = () => {
 	return (
 		<div className="flex flex-col md:flex-row items-center justify-between gap-4">
 			<div className="flex flex-1 justify-start w-full flex-col gap-1">

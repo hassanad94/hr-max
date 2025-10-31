@@ -1,0 +1,44 @@
+# ==========================
+# 🏗️ Build Stage
+# ==========================
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+# Enable pnpm
+RUN corepack enable pnpm
+
+# Copy lockfiles first for caching
+COPY package.json pnpm-lock.yaml* ./
+
+# Install dependencies (no dev interactivity)
+ENV CI=true
+RUN pnpm install --frozen-lockfile
+
+# Copy the source code
+COPY . .
+
+# Build the production bundle
+RUN pnpm run build
+
+
+# ==========================
+# 🚀 Production Stage
+# ==========================
+FROM node:22-alpine AS runner
+
+WORKDIR /app
+RUN corepack enable pnpm
+
+# Copy only what's needed to serve
+COPY --from=builder /app/dist ./dist
+COPY package.json pnpm-lock.yaml* ./
+
+# Install a lightweight static server
+RUN pnpm add serve
+
+# Expose the web port
+EXPOSE 80
+
+# Serve the built Vite app
+CMD ["pnpm", "serve", "-s", "dist", "-l", "80"]
