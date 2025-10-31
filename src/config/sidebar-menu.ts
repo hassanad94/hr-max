@@ -85,23 +85,23 @@ export const sidebarMenu: MenuSection[] = [
 				subItems: [
 					{
 						label: "All Tasks",
-						href: "/tasks",
+						href: "#",
 					},
 					{
 						label: "My Tasks",
-						href: "/tasks/my-tasks",
+						href: "#",
 					},
 					{
 						label: "Team Tasks",
-						href: "/tasks/team",
+						href: "#",
 					},
 					{
 						label: "Completed",
-						href: "/tasks/completed",
+						href: "#",
 					},
 					{
 						label: "Archived",
-						href: "/tasks/archived",
+						href: "#",
 					},
 				],
 			},
