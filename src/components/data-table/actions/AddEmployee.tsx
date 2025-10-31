@@ -6,7 +6,10 @@ export const AddEmployee = () => {
 	const { openDialog } = useDialogActions();
 
 	const onAddEmployee = () => {
-		openDialog({ name: "HandleEmployeeDialog", props: { text: "teszt" } });
+		openDialog({
+			name: "HandleEmployeeDialog",
+			props: {},
+		});
 	};
 
 	return (

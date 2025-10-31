@@ -1,20 +1,29 @@
+import { EmployeeForm } from "@/components/forms/EmployeeForm";
 import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import type { EmployeeDto } from "@/types";
 
 export type HandleEmployeeDialogProps = {
-	text?: string;
+	employee?: EmployeeDto;
 };
 
 export const HandleEmployeeDialog = ({
-	text = "Employee action completed successfully.",
+	employee,
 }: HandleEmployeeDialogProps) => {
 	return (
 		<>
 			<DialogHeader>
-				<DialogTitle>Employee Action</DialogTitle>
+				<DialogTitle>
+					{employee ? "Edit Employee" : "Create New Employee"}
+				</DialogTitle>
 			</DialogHeader>
-			<div className="py-4">
-				<p className="text-sm text-muted-foreground">{text}</p>
-			</div>
+
+			{/* TODO: Separet edit and createa into 2 different form just resuse component*/}
+
+			{employee ? (
+				<EmployeeForm mode={"edit"} employee={employee} />
+			) : (
+				<EmployeeForm mode={"create"} />
+			)}
 		</>
 	);
 };

@@ -62,13 +62,6 @@ export const employeeColumns: ColumnDef<EmployeeDto>[] = [
 	{
 		id: "actions",
 		header: "",
-		cell: ({ row }) => (
-			<ActionsCell
-				employee={row.original}
-				onEdit={(employee) => console.log("Edit", employee)}
-				onDelete={(employee) => console.log("Delete", employee)}
-				onMore={(employee) => console.log("More", employee)}
-			/>
-		),
+		cell: ({ row }) => <ActionsCell employee={row.original} />,
 	},
 ];

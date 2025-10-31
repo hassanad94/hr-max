@@ -1,7 +1,12 @@
-import { queryOptions } from "@tanstack/react-query";
+import {
+	queryOptions,
+	useMutation,
+	useQueryClient,
+} from "@tanstack/react-query";
 import axios from "axios";
 import {
 	type CreateEmployeeRequest,
+	type EmployeeDto,
 	EmployeeDtoSchema,
 	EmployeePaginationSchema,
 	type GetEmployeesParams,
@@ -152,4 +157,53 @@ export const deleteEmployeeRequest = async (id: number) => {
 	}
 
 	return validate.data;
+};
+
+/**
+ * Hook for creating an employee with automatic query invalidation
+ * Invalidates the "Employees" query key to trigger a refetch of the employee list
+ */
+export const useCreateEmployee = () => {
+	return useMutation({
+		mutationFn: async (
+			variables:
+				| {
+						mode: "create";
+						employee: CreateEmployeeRequest;
+				  }
+				| {
+						mode: "edit";
+						employee: EmployeeDto;
+						id: number;
+				  },
+		) => {
+			if (variables.mode === "create") {
+				return await createEmployeeRequest(variables.employee);
+			}
+
+			return await updateEmployeeRequest(variables.id, variables.employee);
+		},
+		meta: {
+			invalidatesQuery: ["Employees"],
+		},
+	});
+};
+
+/**
+ * Hook for deleting an employee with automatic query invalidation
+ * Invalidates the "Employees" query key to trigger a refetch of the employee list
+ */
+export const useDeleteEmployee = () => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: deleteEmployeeRequest,
+		onSuccess: () => {
+			// Invalidate all queries with the "Employees" key to trigger refetch
+			queryClient.invalidateQueries({ queryKey: ["Employees"] });
+		},
+		meta: {
+			invalidatesQuery: ["Employees"],
+		},
+	});
 };

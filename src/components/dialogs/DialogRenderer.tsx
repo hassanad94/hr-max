@@ -36,7 +36,9 @@ export const Dialogs = () => {
 							}
 						}}
 					>
-						<DialogContent>{DialogRenderer(dialog)}</DialogContent>
+						<DialogContent className="max-h-[75vh] overflow-y-scroll">
+							{DialogRenderer(dialog)}
+						</DialogContent>
 					</Dialog>
 				);
 			})}
