@@ -118,6 +118,7 @@ pnpm test              # Run all tests with Vitest
 
 - **Folder Structure**: Build a scalable folder structure even though app is small
 - **Type Safety**: Maintain strict TypeScript type safety throughout
+- **TypeScript Convention**: Always use `type` instead of `interface` for type definitions
 - **Commit History**: Keep organized, meaningful commit history
 - **UI Design**: Use TailwindUI as inspiration for building UI components
 

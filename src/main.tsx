@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals.ts";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 import "./styles.css";
+import { Dialogs } from "./components/dialogs/index.ts";
 
 // Create a new router instance
 const router = createRouter({
@@ -31,6 +32,7 @@ if (rootElement && !rootElement.innerHTML) {
 	root.render(
 		<StrictMode>
 			<QueryProvider>
+				<Dialogs />
 				<RouterProvider router={router} />
 			</QueryProvider>
 		</StrictMode>,

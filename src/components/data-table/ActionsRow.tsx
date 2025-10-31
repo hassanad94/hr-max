@@ -1,5 +1,5 @@
-import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AddEmployee } from "./actions/AddEmployee";
 
 interface ActionsRowProps {
 	onAddEmployee?: () => void;
@@ -20,10 +20,8 @@ export const ActionsRow = ({ onAddEmployee }: ActionsRowProps) => {
 				<Button variant="outline" onClick={() => {}}>
 					Export
 				</Button>
-				<Button onClick={onAddEmployee}>
-					<Plus className="h-4 w-4" />
-					Add Employee
-				</Button>
+
+				<AddEmployee />
 			</div>
 		</div>
 	);
