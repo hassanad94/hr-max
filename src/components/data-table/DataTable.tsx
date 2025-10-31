@@ -1,10 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { useNavigate } from "@tanstack/react-router";
+import {
+	flexRender,
+	getCoreRowModel,
+	useReactTable,
+} from "@tanstack/react-table";
+import { employeeColumns } from "@/components/dashboard/DataTableColumns";
 import { getEmployeesQueryOptions } from "@/requests/employee";
 import { Route } from "@/routes/_auth/dashboard";
-import { employeeColumns } from "@/components/dashboard/DataTableColumns";
+import { Pagination } from "./";
 
 export const DataTable = () => {
+	const navigate = useNavigate({ from: Route.fullPath });
 	const dashboardSearchParams = Route.useSearch();
 
 	const {
@@ -12,6 +19,13 @@ export const DataTable = () => {
 		isLoading,
 		error,
 	} = useQuery(getEmployeesQueryOptions(dashboardSearchParams));
+
+	const handlePageChange = (page: number) => {
+		const newOffset = (page - 1) * dashboardSearchParams.Limit;
+		navigate({
+			search: (prev) => ({ ...prev, Offset: newOffset }),
+		});
+	};
 
 	const table = useReactTable({
 		data: queryData?.data ?? [],
@@ -39,6 +53,9 @@ export const DataTable = () => {
 			</div>
 		);
 	}
+
+	const currentPage =
+		Math.floor(dashboardSearchParams.Offset / dashboardSearchParams.Limit) + 1;
 
 	return (
 		<div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -90,6 +107,12 @@ export const DataTable = () => {
 					</tbody>
 				</table>
 			</div>
+			<Pagination
+				currentPage={currentPage}
+				totalItems={queryData?.total ?? 0}
+				pageSize={dashboardSearchParams.Limit}
+				onPageChange={handlePageChange}
+			/>
 		</div>
 	);
 };

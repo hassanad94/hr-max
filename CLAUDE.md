@@ -28,16 +28,13 @@ pnpm serve
 # Testing
 pnpm test              # Run all tests with Vitest
 
-# Linting & Formatting (Biome)
-pnpm lint              # Check for linting issues
-pnpm format            # Format code
-pnpm check             # Run both lint and format checks
 ```
 
 ## Tech Stack (Required)
 
 - **Framework**: React 18+ with Vite
-- **UI Components**: Headless UI + HeroIcons
+- **UI Components**: Headless UI + shadcn/ui
+- **Icons**: lucide-react
 - **Styling**: Tailwind CSS (use TailwindUI blocks for inspiration: https://tailwindcss.com/plus/ui-blocks/marketing)
 - **Routing**: @tanstack/react-router (file-based routing)
 - **Data Fetching**: axios + @tanstack/react-query
@@ -47,6 +44,12 @@ pnpm check             # Run both lint and format checks
 - **Date Management**: date-fns
 - **Linting/Formatting**: Biome (tabs, double quotes)
 - **TypeScript**: Strict mode enabled
+
+### shadcn/ui Components Used
+**IMPORTANT**: Whenever you install a new shadcn/ui component, add it to this list with a brief description of its usage.
+
+- **Button**: Used throughout the application for actions and navigation
+- **Pagination**: Used for table pagination with Previous/Next controls and page numbers
 
 ## Employee Data Model
 

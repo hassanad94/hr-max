@@ -59,7 +59,6 @@ export const logoutRequest = async () => {
 /**
  * Get current user request
  * GET /api/auth/me
- * @throws {Error} When API request fails or validation fails
  */
 export const getCurrentUserRequest = async () => {
 	const getMe = requestHandler<undefined, User>(() => {
@@ -69,14 +68,14 @@ export const getCurrentUserRequest = async () => {
 	const result = await getMe();
 
 	if (!result.status) {
-		throw new Error(result.error?.message || "Failed to fetch current user");
+		return null;
 	}
 
 	const validate = UserSchema.safeParse(result.data);
 
 	if (!validate.success) {
 		console.error(validate.error);
-		throw new Error("Failed to validate user response");
+		return null;
 	}
 
 	return validate.data;

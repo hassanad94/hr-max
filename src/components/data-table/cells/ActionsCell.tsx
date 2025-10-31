@@ -1,4 +1,5 @@
 import { MoreVertical, Pencil, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import type { EmployeeDto } from "@/types";
 
 type ActionsCellProps = {
@@ -15,31 +16,35 @@ export const ActionsCell = ({
 	onMore,
 }: ActionsCellProps) => {
 	return (
-		<div className="flex items-center justify-end gap-1">
-			<button
+		<div className="action-container flex items-center justify-end gap-1">
+			<Button
 				type="button"
 				onClick={() => onEdit?.(employee)}
-				className="rounded-md p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+				variant="ghost"
+				size="icon-sm"
 				title="Edit employee"
 			>
 				<Pencil className="h-4 w-4" />
-			</button>
-			<button
+			</Button>
+			<Button
 				type="button"
 				onClick={() => onDelete?.(employee)}
-				className="rounded-md p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
+				variant="ghost"
+				size="icon-sm"
+				className="hover:bg-red-50 hover:text-red-600"
 				title="Delete employee"
 			>
 				<Trash2 className="h-4 w-4" />
-			</button>
-			<button
+			</Button>
+			<Button
 				type="button"
 				onClick={() => onMore?.(employee)}
-				className="rounded-md p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+				variant="ghost"
+				size="icon-sm"
 				title="More options"
 			>
 				<MoreVertical className="h-4 w-4" />
-			</button>
+			</Button>
 		</div>
 	);
 };
