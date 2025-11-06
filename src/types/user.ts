@@ -28,10 +28,10 @@ export type User = z.infer<typeof UserSchema>;
  * Get users query parameters schema
  */
 export const GetUsersParamsSchema = z.object({
-	search: z.string().optional(),
-	orderBy: z.string().optional(),
-	limit: z.number().optional(),
-	offset: z.number().optional(),
+	Search: z.string().optional(),
+	OrderBy: z.string().optional(),
+	Limit: z.number().optional(),
+	Offset: z.number().optional(),
 });
 
 export type GetUsersParams = z.infer<typeof GetUsersParamsSchema>;
