@@ -8,12 +8,12 @@ import {
 	Pagination as ShadPagination,
 } from "@/components/ui/pagination";
 
-interface PaginationProps {
+type PaginationProps = {
 	currentPage: number;
 	totalItems: number;
 	pageSize: number;
 	onPageChange: (page: number) => void;
-}
+};
 
 export const Pagination = ({
 	currentPage,
@@ -35,30 +35,30 @@ export const Pagination = ({
 			for (let i = 1; i <= totalPages; i++) {
 				pages.push(i);
 			}
-		} else {
-			// Always show first page
-			pages.push(1);
+			return pages;
+		}
+		// Always show first page
+		pages.push(1);
 
-			if (currentPage > 3) {
-				pages.push("...");
-			}
+		if (currentPage > 3) {
+			pages.push("...");
+		}
 
-			// Show current page and surrounding pages
-			const start = Math.max(2, currentPage - 1);
-			const end = Math.min(totalPages - 1, currentPage + 1);
+		// Show current page and surrounding pages
+		const start = Math.max(2, currentPage - 1);
+		const end = Math.min(totalPages - 1, currentPage + 1);
 
-			for (let i = start; i <= end; i++) {
-				pages.push(i);
-			}
+		for (let i = start; i <= end; i++) {
+			pages.push(i);
+		}
 
-			if (currentPage < totalPages - 2) {
-				pages.push("...");
-			}
+		if (currentPage < totalPages - 2) {
+			pages.push("...");
+		}
 
-			// Always show last page
-			if (totalPages > 1) {
-				pages.push(totalPages);
-			}
+		// Always show last page
+		if (totalPages > 1) {
+			pages.push(totalPages);
 		}
 
 		return pages;
@@ -76,8 +76,8 @@ export const Pagination = ({
 				</p>
 			</div>
 			{totalPages > 1 && (
-				<ShadPagination>
-					<PaginationContent>
+				<ShadPagination className="w-auto">
+					<PaginationContent className="ml-auto">
 						<PaginationItem>
 							<PaginationPrevious
 								onClick={() => onPageChange(currentPage - 1)}
@@ -85,26 +85,20 @@ export const Pagination = ({
 							/>
 						</PaginationItem>
 
-						{pageNumbers.map((page) => {
-							if (page === "...") {
-								return (
-									<PaginationItem key={`ellipsis-${page}-${Math.random()}`}>
-										<PaginationEllipsis />
-									</PaginationItem>
-								);
-							}
-
-							return (
-								<PaginationItem key={page}>
+						{pageNumbers.map((page, index) => (
+							<PaginationItem key={page === "..." ? `ellipsis-${index}` : page}>
+								{page === "..." ? (
+									<PaginationEllipsis />
+								) : (
 									<PaginationLink
 										onClick={() => onPageChange(page as number)}
 										isActive={currentPage === page}
 									>
 										{page}
 									</PaginationLink>
-								</PaginationItem>
-							);
-						})}
+								)}
+							</PaginationItem>
+						))}
 
 						<PaginationItem>
 							<PaginationNext

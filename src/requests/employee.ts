@@ -19,8 +19,9 @@ import { API_BASE_URL, requestHandler } from "@/utils";
 
 export const getEmployeesQueryOptions = (params?: GetEmployeesParams) =>
 	queryOptions({
-		queryKey: ["Employees", { ...params }],
+		queryKey: ["Employees", params],
 		queryFn: () => getEmployeesRequest(params),
+		placeholderData: (previousData) => previousData,
 	});
 
 /**
@@ -29,7 +30,6 @@ export const getEmployeesQueryOptions = (params?: GetEmployeesParams) =>
  * @throws {Error} When API request fails or validation fails
  */
 export const getEmployeesRequest = async (params?: GetEmployeesParams) => {
-	console.log(params);
 	const getEmployees = requestHandler<GetEmployeesParams | undefined, unknown>(
 		() => {
 			return axios.get(`${API_BASE_URL}/api/employees`, { params });

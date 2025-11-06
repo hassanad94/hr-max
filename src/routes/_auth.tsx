@@ -2,6 +2,14 @@ import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { AuthLayout } from "@/components/layout";
 import { getCurrentUserRequest } from "@/requests/auth";
 
+function AuthRouteComponent() {
+	return (
+		<AuthLayout>
+			<Outlet />
+		</AuthLayout>
+	);
+}
+
 export const Route = createFileRoute("/_auth")({
 	beforeLoad: async () => {
 		const isAuthenticated = await getCurrentUserRequest();
@@ -18,9 +26,6 @@ export const Route = createFileRoute("/_auth")({
 			},
 		});
 	},
-	component: () => (
-		<AuthLayout>
-			<Outlet />
-		</AuthLayout>
-	),
+	shouldReload: false, // Don't re-run beforeLoad on search param changes
+	component: AuthRouteComponent,
 });

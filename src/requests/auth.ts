@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useUserStore } from "@/store";
 import { type LoginRequest, type User, UserSchema } from "@/types";
 import { API_BASE_URL, requestHandler } from "@/utils";
 
@@ -27,6 +28,9 @@ export const loginRequest = async (props: LoginRequest) => {
 		throw new Error("Failed to validate user response");
 	}
 
+	// Update user store with logged in user
+	useUserStore.getState().actions.setUser(validate.data);
+
 	return validate.data;
 };
 
@@ -53,6 +57,9 @@ export const logoutRequest = async () => {
 		throw new Error("Failed to validate user response");
 	}
 
+	// Clear user store on logout
+	useUserStore.getState().actions.clearUser();
+
 	return validate.data;
 };
 
@@ -68,6 +75,8 @@ export const getCurrentUserRequest = async () => {
 	const result = await getMe();
 
 	if (!result.status) {
+		// Clear user store if request fails
+		useUserStore.getState().actions.clearUser();
 		return null;
 	}
 
@@ -75,8 +84,12 @@ export const getCurrentUserRequest = async () => {
 
 	if (!validate.success) {
 		console.error(validate.error);
+		useUserStore.getState().actions.clearUser();
 		return null;
 	}
+
+	// Update user store with authenticated user
+	useUserStore.getState().actions.setUser(validate.data);
 
 	return validate.data;
 };

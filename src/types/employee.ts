@@ -49,7 +49,7 @@ export type EmployeeDto = z.infer<typeof EmployeeDtoSchema>;
  * Get employees query parameters schema
  */
 export const GetEmployeesParamsSchema = z.object({
-	Learch: z.string().optional(),
+	Search: z.string().optional(),
 	OrderBy: z.string().optional(),
 	Limit: z.number().optional(),
 	Offset: z.number().optional(),

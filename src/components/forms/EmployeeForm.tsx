@@ -9,7 +9,6 @@ import {
 	FieldGroup,
 	FieldLabel,
 	FieldLegend,
-	FieldSeparator,
 	FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -123,8 +122,6 @@ export const EmployeeForm = (props: EmployeeFormProps) => {
 						employee: data as EmployeeDto,
 						id: defaultValues.id,
 					};
-
-		console.log({ mutationData });
 
 		createEmployeeMutation.mutate(mutationData, {
 			onSuccess: () => {
@@ -297,8 +294,6 @@ export const EmployeeForm = (props: EmployeeFormProps) => {
 					</FieldGroup>
 				</FieldSet>
 
-				<FieldSeparator />
-
 				{/* Address Section */}
 				<FieldSet>
 					<FieldLegend variant="legend">Address</FieldLegend>
@@ -415,8 +410,6 @@ export const EmployeeForm = (props: EmployeeFormProps) => {
 					</FieldGroup>
 				</FieldSet>
 
-				<FieldSeparator />
-
 				{/* Payment Section */}
 				<FieldSet>
 					<FieldLegend variant="legend">Payment Information</FieldLegend>
@@ -517,7 +510,7 @@ export const EmployeeForm = (props: EmployeeFormProps) => {
 
 			{/* Fixed submit button */}
 			<div className="sticky bottom-0 left-0 right-0 z-10 border-t border-gray-200 bg-white px-6 py-4 shadow-lg">
-				<div className="flex justify-end">
+				<div className="flex justify-center field-set">
 					<Button
 						type="submit"
 						disabled={createEmployeeMutation.isPending}

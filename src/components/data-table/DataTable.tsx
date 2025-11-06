@@ -6,23 +6,29 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 import { employeeColumns } from "@/components/dashboard/DataTableColumns";
+import { Spinner } from "@/components/ui/spinner";
 import { getEmployeesQueryOptions } from "@/requests/employee";
 import { Route } from "@/routes/_auth/dashboard";
 import { Pagination } from "./";
 
 export const DataTable = () => {
-	const navigate = useNavigate({ from: Route.fullPath });
+	const navigate = useNavigate();
 	const dashboardSearchParams = Route.useSearch();
 
 	const {
 		data: queryData,
 		isLoading,
+		isFetching,
 		error,
 	} = useQuery(getEmployeesQueryOptions(dashboardSearchParams));
+
+	// isLoading: true only on the first load (no cached data)
+	// isFetching: true whenever data is being fetched (including subsequent loads)
 
 	const handlePageChange = (page: number) => {
 		const newOffset = (page - 1) * dashboardSearchParams.Limit;
 		navigate({
+			to: ".",
 			search: (prev) => ({ ...prev, Offset: newOffset }),
 		});
 	};
@@ -58,8 +64,17 @@ export const DataTable = () => {
 		Math.floor(dashboardSearchParams.Offset / dashboardSearchParams.Limit) + 1;
 
 	return (
-		<div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-			<div className="overflow-x-auto">
+		<div className="relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+			{/* Loading overlay for subsequent fetches */}
+			{isFetching && (
+				<div className="absolute inset-0 z-10 flex items-center justify-center bg-white/60 backdrop-blur-[2px]">
+					<Spinner className="size-8" />
+				</div>
+			)}
+
+			<div
+				className={`overflow-x-auto ${isFetching ? "pointer-events-none" : ""}`}
+			>
 				<table className="w-full">
 					<thead className="border-b border-gray-200 bg-gray-50">
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -109,7 +124,8 @@ export const DataTable = () => {
 			</div>
 			<Pagination
 				currentPage={currentPage}
-				totalItems={queryData?.total ?? 0}
+				//The Soluton: but for test purpose i fix the total Items to 100 queryData?.total ?? 0
+				totalItems={100}
 				pageSize={dashboardSearchParams.Limit}
 				onPageChange={handlePageChange}
 			/>
