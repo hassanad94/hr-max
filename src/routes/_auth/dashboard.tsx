@@ -1,17 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import z from "zod";
+import { fallback, zodValidator } from "@tanstack/zod-adapter";
+import { z } from "zod";
 import { ActionsRow, DataTable, SearchRow } from "@/components/data-table";
 
-/*Currently its an overkill but later maybe we need to extend*/
 const dashBoardSearchParamsSchema = z.object({
-	Search: z.string().optional().catch(undefined),
-	OrderBy: z.string().optional().catch(undefined),
-	Limit: z.number().catch(10),
-	Offset: z.number().catch(0),
+	Search: fallback(z.string(), "").default(""),
+	OrderBy: fallback(z.string(), "").default(""),
+	Limit: fallback(z.number(), 10).default(10),
+	Offset: fallback(z.number(), 0).default(0),
 });
 
 export const Route = createFileRoute("/_auth/dashboard")({
-	validateSearch: dashBoardSearchParamsSchema,
+	validateSearch: zodValidator(dashBoardSearchParamsSchema),
 	component: RouteComponent,
 });
 

@@ -22,9 +22,6 @@ export const DataTable = () => {
 		error,
 	} = useQuery(getEmployeesQueryOptions(dashboardSearchParams));
 
-	// isLoading: true only on the first load (no cached data)
-	// isFetching: true whenever data is being fetched (including subsequent loads)
-
 	const handlePageChange = (page: number) => {
 		const newOffset = (page - 1) * dashboardSearchParams.Limit;
 		navigate({

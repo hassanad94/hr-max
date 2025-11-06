@@ -1,6 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { Search, X } from "lucide-react";
-import { type FC, useCallback, useEffect, useState } from "react";
+import { type FC, useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks";
@@ -8,21 +8,26 @@ import { Route } from "@/routes/_auth/dashboard";
 
 export const SearchRow: FC = () => {
 	const navigate = useNavigate();
-	const { Search: searchValue } = Route.useSearch();
+	const searchParams = Route.useSearch();
+	const searchValue = searchParams?.Search;
 
 	const [value, setValue] = useState(searchValue ?? "");
 	const debouncedValue = useDebounce(value, 500);
+	const previousDebouncedValue = useRef(debouncedValue);
 
 	// Update URL search params when debounced value changes
 	useEffect(() => {
-		navigate({
-			to: ".",
-			search: (prev) => ({
-				...prev,
-				Search: debouncedValue || undefined,
-				Offset: 0,
-			}),
-		});
+		if (debouncedValue !== previousDebouncedValue.current) {
+			previousDebouncedValue.current = debouncedValue;
+			navigate({
+				to: ".",
+				search: (prev) => ({
+					...prev,
+					Search: debouncedValue || undefined,
+					Offset: 0,
+				}),
+			});
+		}
 	}, [debouncedValue, navigate]);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
